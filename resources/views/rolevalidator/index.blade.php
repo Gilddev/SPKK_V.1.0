@@ -3,65 +3,100 @@
 @section('content')
 <div class="container">
     <div class="mt-3 m-3 text-center">Selamat datang di halaman validator. Pilih menu di navbar untuk mengelola sistem.</div>
-
-    <form action="{{ route('validator.filter_table') }}" method="GET" class="mb-3 d-flex gap-2">
-        <!-- Dropdown Bulan -->
-        <select name="bulan" class="form-control w-auto">
-            <option value="">Pilih Bulan</option>
-            @foreach(range(1, 12) as $m)
-                <option value="{{ $m }}" {{ request('bulan') == $m ? 'selected' : '' }}>
-                    {{ DateTime::createFromFormat('!m', $m)->format('F') }}
-                </option>
-            @endforeach
-        </select>
-    
-        <!-- Dropdown Tahun -->
-        <select name="tahun" class="form-control w-auto">
-            <option value="">Pilih Tahun</option>
-            @foreach(range(date('Y'), date('Y')) as $y)
-                <option value="{{ $y }}" {{ request('tahun') == $y ? 'selected' : '' }}>{{ $y }}</option>
-            @endforeach
-        </select>
-    
-        <button type="submit" class="btn btn-primary">Filter</button>
-        <a href="{{ route('validator.index') }}" class="btn btn-secondary">Reset</a>
-    </form>    
-
-    @foreach($rekapPenilaian as $unit => $karyawanList)
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5>{{ $unit }}</h5>
-            </div>
-            <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Karyawan</th>
-                            <th>Total IKU</th>
-                            <th>Total IKI</th>
-                            <th>Jumlah Valid</th>
-                            <th>Persentase Kinerja</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php $no = 1; @endphp
-                        @foreach($karyawanList as $karyawan)
-                            @if ($karyawan->rekapPenilaian)
-                                <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $karyawan->name }}</td>
-                                    <td>{{ $karyawan->rekapPenilaian->total_iku ?? 0 }}</td>
-                                    <td>{{ $karyawan->rekapPenilaian->total_iki ?? 0 }}</td>
-                                    <td>{{ $karyawan->rekapPenilaian->jumlah_valid ?? 0 }}</td>
-                                    <td>{{ $karyawan->rekapPenilaian->persentase_valid ?? 0 }}%</td>
-                                </tr>
-                            @endif
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    @endforeach
 </div>
+<div class="container">
+    <h3 class="text-center">Grafik Kinerja Karyawan</h3>
+
+    <div class="row mt-4">
+        <!-- Grafik Total Karyawan & Validator -->
+        <div class="col-md-4">
+            <h5 class="text-center">Total User</h5>
+            <canvas id="totalUserChart"></canvas>
+        </div>
+
+        <!-- Grafik Top 5 Karyawan -->
+        <div class="col-md-4">
+            <h5 class="text-center">Top 5 Karyawan</h5>
+            <canvas id="top5KaryawanChart"></canvas>
+        </div>
+
+        <!-- Grafik Bottom 5 Karyawan -->
+        <div class="col-md-4">
+            <h5 class="text-center">Bottom 5 Karyawan</h5>
+            <canvas id="bottom5KaryawanChart"></canvas>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Chart Total Karyawan dan validator
+        let totalKaryawan = {{ $totalKaryawan }};
+        let totalValidator = {{ $totalValidator }};
+
+        // Inisialisasi Grafik Total User
+        var ctx1 = document.getElementById('totalUserChart').getContext('2d');
+        var totalUserChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['Karyawan', 'Validator'],
+                datasets: [{
+                    label: 'Jumlah Per Role',
+                    data: [totalKaryawan, totalValidator],
+                    backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(255, 99, 132, 0.6)'],
+                    borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+        // Chart Top 5 Karyawan
+        var ctx2 = document.getElementById('top5KaryawanChart').getContext('2d');
+        var top5KaryawanChart = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode($top5Karyawan->pluck('name')) !!},
+                datasets: [{
+                    label: 'Persentase Kinerja (%)',
+                    data: {!! json_encode($top5Karyawan->pluck('persentase_kinerja')) !!},
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    x: { beginAtZero: true, max: 100 }
+                }
+            }
+        });
+
+        // Chart Bottom 5 Karyawan
+        var ctx3 = document.getElementById('bottom5KaryawanChart').getContext('2d');
+        var bottom5KaryawanChart = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode($bottom5Karyawan->pluck('name')) !!},
+                datasets: [{
+                    label: 'Persentase Kinerja (%)',
+                    data: {!! json_encode($bottom5Karyawan->pluck('persentase_kinerja')) !!},
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    x: { beginAtZero: true, max: 100 }
+                }
+            }
+        });
+    </script>
 @endsection

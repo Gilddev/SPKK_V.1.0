@@ -40,9 +40,9 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/roleadmin/laporan', [AdminController::class, 'indexLaporan'])->middleware(UserAkses::class . ':admin')->name('admin.laporan.index');
     Route::get('/roleadmin/laporan/cetak', [AdminController::class, 'cetakLaporan'])->middleware(UserAkses::class . ':admin')->name('admin.laporan.cetak');
 
-
     // route untuk validator
     Route::get('/rolevalidator/index', [ValidatorController::class, 'index'])->middleware(UserAkses::class . ':validator')->name('validator.index');
+    Route::get('/rolevalidator/laporan', [ValidatorController::class, 'laporan'])->middleware(UserAkses::class . ':validator')->name('validator.laporan');
     Route::get('/rolevalidator/filter-rekap', [ValidatorController::class, 'filterRekap'])->middleware(UserAkses::class . ':validator')->name('validator.filter_table');
     Route::get('/rolevalidator/table', [ValidatorController::class, 'table_Iki'])->middleware(UserAkses::class . ':validator')->name('validator.table_Iki');
     Route::get('/rolevalidator/tableIku', [ValidatorController::class, 'table_Iku'])->middleware(UserAkses::class . ':validator')->name('validator.table_Iku');

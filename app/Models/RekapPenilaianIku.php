@@ -9,10 +9,9 @@ class RekapPenilaianIku extends Model
 {
     use HasFactory;
 
-    protected $table = 'rekap_penilaian_ikus';
+    protected $table = 'rekap_penilaian';
     protected $fillable = [
-        'id', 'total_iku', 'total_iki', 
-        'jumlah_valid', 'persentase_valid'
+        'id', 'total_iku', 'total_iki', 'jumlah_valid_iku', 'jumlah_valid_iki', 'persentase_valid_iku', 'persentase_valid_iki', 'persentase_kinerja'
     ];
 
     // protected $table = 'rekap_penilaian_ikus'; // Sesuaikan dengan nama tabel di database

@@ -11,6 +11,9 @@
     <!-- Sweetalert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    {{-- chart --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <title>{{env('APP_NAME')}}</title>
   </head>
   <body>
@@ -28,7 +31,7 @@
                 <a class="nav-link active" aria-current="page" href="{{ route('validator.index') }}">Dashboard</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Laporan</a>
+                <a class="nav-link active" aria-current="page" href="{{ route('validator.laporan') }}">Laporan</a>
               </li>
               {{-- <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{{route('validasi.index')  }}">Penilaian</a>

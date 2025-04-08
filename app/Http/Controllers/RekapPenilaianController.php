@@ -42,24 +42,61 @@ class RekapPenilaianController extends Controller
     //     );
     // }
 
+    // public function updateRekapPenilaian($id)
+    // {
+    //     $user = User::findOrFail($id);
+
+    //     // Hitung total indikator yang harus diisi oleh karyawan ini
+    //     $totalIKU = IndikatorKinerjaUtama::count(); // Semua karyawan wajib mengisi IKU
+    //     $totalIKI = IndikatorKinerjaIndividu::where('unit_id', $user->unit_id)->count(); // Hanya berdasarkan unit karyawan
+    //     $totalIndikator = $totalIKU + $totalIKI; // Total indikator yang harus diisi oleh karyawan
+
+    //     // Hitung jumlah valid untuk IKU dan IKI
+    //     $jumlahValidIKU = PenilaianIku::where('id', $id)->where('status', 'valid')->count();
+    //     $jumlahValidIKI = PenilaianIki::where('id', $id)->where('status', 'valid')->count();
+        
+    //     // Total valid IKU + IKI
+    //     $jumlahValid = $jumlahValidIKU + $jumlahValidIKI;
+
+    //     // Hitung persentase valid
+    //     $persentaseValid = ($totalIndikator > 0) ? ($jumlahValid / $totalIndikator) * 100 : 0;
+
+    //     // Simpan atau update rekap penilaian
+    //     RekapPenilaianIku::updateOrCreate(
+    //         ['id' => $id], // Berdasarkan ID Karyawan
+    //         [
+    //             'total_iku' => $totalIKU,
+    //             'total_iki' => $totalIKI,
+    //             'jumlah_valid' => $jumlahValid,
+    //             'persentase_valid' => $persentaseValid
+    //         ]
+    //     );
+
+    //     return redirect()->back()->with('success', 'Rekap penilaian berhasil diperbarui!');
+    // }
+
     public function updateRekapPenilaian($id)
     {
         $user = User::findOrFail($id);
 
         // Hitung total indikator yang harus diisi oleh karyawan ini
         $totalIKU = IndikatorKinerjaUtama::count(); // Semua karyawan wajib mengisi IKU
-        $totalIKI = IndikatorKinerjaIndividu::where('unit_id', $user->unit_id)->count(); // Hanya berdasarkan unit karyawan
-        $totalIndikator = $totalIKU + $totalIKI; // Total indikator yang harus diisi oleh karyawan
+        $totalIKI = IndikatorKinerjaIndividu::where('unit_id', $user->unit_id)->count(); // Berdasarkan unit kerja
 
         // Hitung jumlah valid untuk IKU dan IKI
         $jumlahValidIKU = PenilaianIku::where('id', $id)->where('status', 'valid')->count();
         $jumlahValidIKI = PenilaianIki::where('id', $id)->where('status', 'valid')->count();
-        
-        // Total valid IKU + IKI
-        $jumlahValid = $jumlahValidIKU + $jumlahValidIKI;
 
-        // Hitung persentase valid
-        $persentaseValid = ($totalIndikator > 0) ? ($jumlahValid / $totalIndikator) * 100 : 0;
+        // Perhitungan persentase valid masing-masing
+        $persentaseValidIKU = ($totalIKU > 0) ? ($jumlahValidIKU / $totalIKU) * 100 : 0;
+        $persentaseValidIKI = ($totalIKI > 0) ? ($jumlahValidIKI / $totalIKI) * 100 : 0;
+
+        // Bobot Penilaian
+        $bobotIKU = 0.7; // 70%
+        $bobotIKI = 0.3; // 30%
+
+        // Perhitungan Persentase Kinerja Gabungan
+        $persentaseKinerja = ($persentaseValidIKU * $bobotIKU) + ($persentaseValidIKI * $bobotIKI);
 
         // Simpan atau update rekap penilaian
         RekapPenilaianIku::updateOrCreate(
@@ -67,8 +104,11 @@ class RekapPenilaianController extends Controller
             [
                 'total_iku' => $totalIKU,
                 'total_iki' => $totalIKI,
-                'jumlah_valid' => $jumlahValid,
-                'persentase_valid' => $persentaseValid
+                'jumlah_valid_iku' => $jumlahValidIKU,
+                'jumlah_valid_iki' => $jumlahValidIKI,
+                'persentase_valid_iku' => $persentaseValidIKU,
+                'persentase_valid_iki' => $persentaseValidIKI,
+                'persentase_kinerja' => $persentaseKinerja
             ]
         );
 
