@@ -10,6 +10,10 @@ use App\Models\Unit;
 use App\Models\Jabatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
+
 
 class ValidatorController extends Controller
 {
@@ -234,4 +238,15 @@ class ValidatorController extends Controller
 
         return view('dashboard.grafik', compact('totalKaryawan', 'karyawanData'));
     }
+    //------------------------------------------------------------------------------------------------------------
+    
+    // fungsi export ke excel
+    public function excel(){
+        $now = Carbon::now()->locale('id')->isoFormat('dddd-DD-MM-YYYY-HH_mm');
+        $filename = 'spkk-' . $now . '.xlsx';
+
+        return Excel::download(new UsersExport, $filename);
+    }
 }
+
+

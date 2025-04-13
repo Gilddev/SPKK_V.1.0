@@ -83,6 +83,9 @@ Route::middleware(['auth'])->group(function(){
     Route::put('/rolevalidator/iki/{indikator_id}', [ValidatorController::class, 'update_Iki'])->middleware(UserAkses::class . ':validator')->name('validator.update_Iki');
     Route::delete('/rolevalidator/iki/{indikator_id}', [ValidatorController::class, 'destroy_Iki'])->middleware(UserAkses::class . ':validator')->name('validator.destroy_Iki');
 
+    // route untuk export data ke excel
+    Route::get('/rolevalidator/excel', [ValidatorController::class, 'excel'])->middleware(UserAkses::class . ':validator')->name('validator.excel');
+
     // route untuk karyawan
     Route::get('/rolekaryawan/index', [KaryawanController::class, 'index'])->middleware(UserAkses::class . ':karyawan')->name('karyawan.index');
     Route::get('/rolekaryawan/table', [KaryawanController::class, 'table'])->middleware(UserAkses::class . ':karyawan')->name('karyawan.table');

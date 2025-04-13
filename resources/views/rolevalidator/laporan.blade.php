@@ -25,6 +25,7 @@
     
         <button type="submit" class="btn btn-primary">Filter</button>
         <a href="{{ route('validator.index') }}" class="btn btn-secondary">Reset</a>
+        <a href="{{ route('validator.excel') }}" class="btn btn-success">Export</a>
     </form>    
 
     @foreach($rekapPenilaian as $unit => $karyawanList)
