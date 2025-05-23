@@ -13,12 +13,17 @@
         @method('PUT')
 
         <div class="mb-3">
-            <label for="nama" class="form-label">Nama Lenkap</label>
-            <input type="text" class="form-control" id="nama" name="name" value="{{ $users->name }}" required>
+            <label for="nik" class="form-label">NIK</label>
+            <input type="text" class="form-control" id="nik" name="nik" value="{{ $users->nik }}" required>
         </div>
 
         <div class="mb-3">
-            <label for="usernama" class="form-label">Username</label>
+            <label for="name" class="form-label">Nama Lenkap</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ $users->name }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
             <input type="text" class="form-control" id="usernama" name="username" value="{{ $users->username }}" required>
         </div>
 
@@ -61,7 +66,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Simpan</button>
-        <a href="{{ route('admin.index') }}" class="btn btn-secondary">Batal</a>
+        <a href="{{ route('admin.table') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
 @endsection

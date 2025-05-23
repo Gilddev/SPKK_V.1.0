@@ -15,8 +15,10 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>No</th>
                     <th>Userame</th>
-                    <th>Nama Lenkap</th>
+                    <th>Nik</th>
+                    <th>Nama Lengkap</th>
                     <th>Role</th>
                     <th>Jabatan</th>
                     <th>Unit</th>
@@ -24,9 +26,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ( $users as $d )
+                @foreach ( $users as $key => $d )
                 <tr>
+                    {{-- <td>{{ $loop->iteration }}</td> --}}
+                    <td>{{ $users->firstItem() + $key }}</td>
                     <td>{{ $d->username }}</td>
+                    <td>{{ $d->nik }}</td>
                     <td>{{ $d->name }}</td>
                     <td>{{ $d->role }}</td>
                     <td>{{ $d->jabatan->nama_jabatan }}</td>
@@ -43,6 +48,11 @@
                 @endforeach
             </tbody>
         </table>
+
+        {{-- Tampilkan link pagination --}}
+        <div class="d-flex justify-content-end small">
+            {{ $users->links('vendor.pagination.bootstrap-5') }}
+        </div>
     </div>
 </div>
 

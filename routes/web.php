@@ -9,7 +9,6 @@ use App\Http\Controllers\SesiController;
 use App\Http\Controllers\ValidationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\redirect;
-
 // Route::get('/', function () {
 //     return view('pages.index');
 // });

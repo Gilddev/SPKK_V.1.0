@@ -11,7 +11,7 @@ class UploadIku extends Model
 
     protected $table = 'upload_ikus';
 
-    protected $fillable = ['id', 'iku_id', 'file_path'];
+    protected $fillable = ['id', 'iku_id', 'file_path', 'periode_penilaian'];
 
     protected $primaryKey = 'upload_iku_id';
 

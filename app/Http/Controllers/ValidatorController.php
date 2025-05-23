@@ -170,12 +170,14 @@ class ValidatorController extends Controller
             'deskripsi_indikator' => 'required|string|max:255',
             'indikator_keberhasilan' => 'required|string|max:255',
             'parameter' => 'required|string|max:255',
+            'berulang' => 'required'
         ]);
 
         IndikatorKinerjaUtama::create([
             'deskripsi_indikator' => $request->deskripsi_indikator,
             'indikator_keberhasilan' => $request->indikator_keberhasilan,
             'parameter' => $request->parameter,
+            'berulang' => $request->berulang,
             'id' => Auth::id(),
         ]);
 
@@ -195,12 +197,11 @@ class ValidatorController extends Controller
     public function update_Iku(Request $request, $iku_id)
     {
 
-        // dd($request->all());
-
         $request->validate([
             'deskripsi_indikator' => 'required|string|max:255',
             'indikator_keberhasilan' => 'required|string|max:255',
             'parameter' => 'required|string|max:255',
+            'berulang' => 'required'
         ]);
 
         $indikator = IndikatorKinerjaUtama::findOrFail($iku_id);
@@ -208,6 +209,7 @@ class ValidatorController extends Controller
             'deskripsi_indikator' => $request->deskripsi_indikator,
             'indikator_keberhasilan' => $request->indikator_keberhasilan,
             'parameter' => $request->parameter,
+            'berulang' => $request->berulang,
         ]);
 
         return redirect()->back()->with('success', 'Indikator berhasil diperbarui!');

@@ -19,8 +19,6 @@ class UserAkses
         if(auth('web')->user()->role == $role){
             return $next($request);
         }
-        // return response()->json(['Anda tidak diperbolehkan akses halaman ini.']);
-        // return redirect('/logout');
         return redirect('/')->with('error', 'Akses ditolak');
     }
 }

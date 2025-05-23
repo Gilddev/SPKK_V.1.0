@@ -10,7 +10,7 @@ class IndikatorKinerjaUtama extends Model
     use HasFactory;
     protected $table = 'indikator_kinerja_utamas';
 
-    protected $fillable = ['deskripsi_indikator', 'indikator_keberhasilan', 'parameter', 'id', 'iku_id'];
+    protected $fillable = ['deskripsi_indikator', 'indikator_keberhasilan', 'parameter', 'id', 'iku_id', 'berulang'];
 
     protected $primaryKey = 'iku_id';
 

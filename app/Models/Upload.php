@@ -11,7 +11,7 @@ class Upload extends Model
 
     protected $table = 'uploads';
 
-    protected $fillable = ['id', 'indikator_id', 'file_path'];
+    protected $fillable = ['id', 'indikator_id', 'file_path', 'periode_penilaian'];
 
     protected $primaryKey = 'upload_id';
 

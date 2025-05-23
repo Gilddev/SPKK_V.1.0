@@ -45,7 +45,7 @@ class AdminController extends Controller
 
     // menampilkan semua data user pada halaman tabel users
     function table(){
-        $users = User::with('jabatan','unit')->get();
+        $users = User::with('jabatan','unit')->paginate(20);
         $units = Unit::all();
         $jabatans = Jabatan::all();
         return view('roleadmin.table', compact('users', 'units', 'jabatans'));
@@ -100,6 +100,7 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
 
         $request->validate([
+            'nik' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255',
             'role' => 'required|in:admin,validator,karyawan',
@@ -108,6 +109,7 @@ class AdminController extends Controller
         ]);
 
         // Update data user
+        $user->nik = $request->nik;
         $user->name = $request->name;
         $user->username = $request->username;
         $user->role = $request->role;

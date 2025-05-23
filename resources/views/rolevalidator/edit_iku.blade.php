@@ -28,8 +28,17 @@
             <input type="text" class="form-control" name="parameter" value="{{ old('parameter', $indikators->parameter) }}" required>
         </div>
 
+        <div class="mb-3">
+            <label for="berulang" class="form-label">Berulang</label><br>
+            <select name="berulang" class="form-control" required>
+                <option value=""></option>
+                <option value="ya" {{ $indikators->berulang == 'ya' ? 'selected' : '' }}>Iya</option>
+                <option value="tidak" {{ $indikators->berulang == 'tidak' ? 'selected' : '' }}>Tidak</option>
+            </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Update</button>
-        <a href="{{ route('validator.table_Iku') }}" class="btn btn-secondary">Batal</a>
+        <a href="{{ route('validator.table_Iku') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
 @endsection

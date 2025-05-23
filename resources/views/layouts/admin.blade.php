@@ -38,7 +38,7 @@
                   Menu
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="{{ route('admin.create') }}">Tambar User</a></li>
+                  <li><a class="dropdown-item" href="{{ route('admin.create') }}">Tambah User</a></li>
                   <li><a class="dropdown-item" href="{{ route('admin.table') }}">Tabel User</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">Log Aktifitas</a></li>

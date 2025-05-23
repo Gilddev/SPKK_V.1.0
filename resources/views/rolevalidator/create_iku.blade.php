@@ -27,7 +27,17 @@
             <input type="text" class="form-control" name="parameter" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Simpan</button>
+        <div class="mb-3">
+            <label for="berulang" class="form-label">Berulang</label><br>
+            <select name="berulang" class="form-control" required>
+                <option value=""></option>
+                <option value="ya">Iya</option>
+                <option value="tidak">Tidak</option>
+            </select>
+        </div>
+
+        <a href="{{ route('validator.table_Iku') }}" class="btn btn-primary">Kembali</a>
+        <button type="submit" class="btn btn-success">Simpan</button>
     </form>
 </div>
 @endsection
