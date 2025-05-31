@@ -4,10 +4,10 @@
 <div class="container mt-3 mb-3">
     <div class="row">
         <div class="col">
-            <h3>Tabel user</h3>
+            <h3>Tabel Jabatan</h3>
         </div>
     <div class="col text-end">
-            <a href="{{ route('admin.create') }}" class="btn btn-primary btn-sm">Tambah User</a>
+            <a href="{{ route('admin.jabatan_create') }}" class="btn btn-primary btn-sm">Tambah Jabatan</a>
     </div>
     </div>
 
@@ -16,30 +16,19 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Userame</th>
-                    <th>Nik</th>
-                    <th>Nama Lengkap</th>
-                    <th>Role</th>
-                    <th>Jabatan</th>
-                    <th>Unit</th>
+                    <th>Nama Jabatan</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ( $users as $key => $d )
+                @foreach ( $jabatans as $d )
                 <tr>
-                    {{-- <td>{{ $loop->iteration }}</td> --}}
-                    <td>{{ $users->firstItem() + $key }}</td>
-                    <td>{{ $d->username }}</td>
-                    <td>{{ $d->nik }}</td>
-                    <td>{{ $d->name }}</td>
-                    <td>{{ $d->role }}</td>
-                    <td>{{ $d->jabatan->nama_jabatan }}</td>
-                    <td>{{ $d->unit->nama_unit }}</td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $d->nama_jabatan }}</td>
                     <td>
-                        <a href="{{ route('admin.edit', $d->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{{ route('admin.jabatan_edit', $d->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ $d->id }})">Hapus</button>
-                        <form id="delete-form-{{ $d->id }}" action="{{ route('admin.destroy', $d->id) }}" method="POST" style="display: none;">
+                        <form id="delete-form-{{ $d->id }}" action="{{ route('admin.jabatan_delete', $d->id) }}" method="POST" style="display: none;">
                             @csrf
                             @method('DELETE')
                         </form>
@@ -48,16 +37,11 @@
                 @endforeach
             </tbody>
         </table>
-
-        {{-- Tampilkan link pagination --}}
-        <div class="d-flex justify-content-end small">
-            {{ $users->links('vendor.pagination.bootstrap-5') }}
-        </div>
     </div>
 </div>
 
     <script>
-        function confirmDelete(userId) {
+        function confirmDelete(jabatanId) {
             Swal.fire({
                 title: 'Yakin ingin menghapus?',
                 text: "Data akan dihapus secara permanen!",
@@ -69,7 +53,7 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.getElementById('delete-form-' + userId).submit();
+                    document.getElementById('delete-form-' + jabatanId).submit();
                     Swal.fire({
                     title: "Deleted!",
                     text: "Your file has been deleted.",

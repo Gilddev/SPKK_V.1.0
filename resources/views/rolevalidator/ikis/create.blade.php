@@ -9,15 +9,21 @@
     @endif
     <h2>Tambah Indikator Kinerja Individu</h2>
     
-    <form action="{{ route('validator.store_Iki') }}" method="POST">
+    <form action="{{ route('validator.iki_store') }}" method="POST">
         @csrf
+
+        {{-- <div class="mb-3">
+            <label for="kode_iki" class="form-label">Kode Iki</label>
+            <input type="text" class="form-control" name="kode_iki">
+        </div> --}}
+        <p>Kode IKI akan dibuat otomatis oleh sistem.</p>
 
         <div class="mb-3">
             <label for="unit_id" class="form-label">Unit Kerja</label>
             <select name="unit_id" class="form-control" required>
                 <option value="">Pilih Unit</option>
                 @foreach($units as $unit)
-                    <option value="{{ $unit->unit_id }}">{{ $unit->nama_unit }}</option>
+                    <option value="{{ $unit->id }}">{{ $unit->nama_unit }}</option>
                 @endforeach
             </select>
         </div>
@@ -38,6 +44,8 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Simpan</button>
+        <a href="{{ route('validator.iki_index') }}" class="btn btn-secondary">Kembali</a>
+    </form>
     </form>
 </div>
 @endsection

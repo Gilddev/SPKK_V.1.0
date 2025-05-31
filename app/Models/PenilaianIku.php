@@ -9,16 +9,19 @@ class PenilaianIku extends Model
 {
     use HasFactory;
 
-    protected $table = 'penilaian_ikus';
-    protected $fillable = ['id', 'iku_id', 'status'];
+    protected $fillable = [
+        'user_id', 
+        'iku_id', 
+        'status'
+    ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class);
     }
 
-    public function indikator()
+    public function iku()
     {
-        return $this->belongsTo(IndikatorKinerjaUtama::class, 'iku_id', 'iku_id');
+        return $this->belongsTo(Iku::class);
     }
 }

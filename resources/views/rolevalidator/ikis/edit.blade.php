@@ -7,14 +7,30 @@
             {{ session('success') }}
         </div>
     @endif
-    <h2>Edit Indikator Kinerja Utama</h2>
+    <h2>Edit Indikator Kinerja Individu</h2>
     
-    <form action="{{ route('validator.update_Iku', $indikators->iku_id) }}" method="POST">
+    <form action="{{ route('validator.iki_update', $indikators->id) }}" method="POST">
         @csrf
         @method('PUT')
 
         <div class="mb-3">
-            <label for="deskripsi_indikator" class="form-label">Deskripsi Indikator Kinerja Utama</label>
+            <label for="kode_iki" class="form-label">Kode Iki</label>
+            <input type="text" class="form-control" name="kode_iki" value="{{$indikators->kode_iki}}" required disabled>
+        </div>
+
+        <div class="mb-3">
+            <label for="unit_id" class="form-label">Unit</label>
+            <select name="unit_id" class="form-control" required disabled>
+                @foreach($units as $unit)
+                    <option value="{{ $unit->id }}" {{ $indikators->unit_id == $unit->id ? 'selected' : '' }}>
+                        {{ $unit->nama_unit }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="deskripsi_indikator" class="form-label">Deskripsi Indikator Kinerja Individu</label>
             <textarea class="form-control" name="deskripsi_indikator" rows="5" required>{{ old('deskripsi_indikator', $indikators->deskripsi_indikator) }}</textarea>
         </div>
 
@@ -28,17 +44,8 @@
             <input type="text" class="form-control" name="parameter" value="{{ old('parameter', $indikators->parameter) }}" required>
         </div>
 
-        <div class="mb-3">
-            <label for="berulang" class="form-label">Berulang</label><br>
-            <select name="berulang" class="form-control" required>
-                <option value=""></option>
-                <option value="ya" {{ $indikators->berulang == 'ya' ? 'selected' : '' }}>Iya</option>
-                <option value="tidak" {{ $indikators->berulang == 'tidak' ? 'selected' : '' }}>Tidak</option>
-            </select>
-        </div>
-
         <button type="submit" class="btn btn-primary">Update</button>
-        <a href="{{ route('validator.table_Iku') }}" class="btn btn-secondary">Kembali</a>
+        <a href="{{ route('validator.iki_index') }}" class="btn btn-secondary">Kembali</a>
     </form>
 </div>
 @endsection

@@ -31,7 +31,7 @@
         </select>
     
         <button type="submit" class="btn btn-primary">Filter</button>
-        <a href="{{ route('validator.index') }}" class="btn btn-secondary">Reset</a>
+        <a href="{{ route('validator.dashboard') }}" class="btn btn-secondary">Reset</a>
     </form>
     
     <table class="table table-bordered">
@@ -46,32 +46,10 @@
             @foreach ($indikators as $d)
             <tr>
                 <td>{{ $d->deskripsi_indikator }}</td>
-                <!-- Filter file hanya yang sesuai dengan indikator -->
-                {{-- <td>
-                    @php
-                        $filteredUploads = $uploads->where('iku_id', $d->iku_id);
-                        // dd($uploads->all()); 
-                    @endphp
-    
-                    @if($filteredUploads->isNotEmpty())
-                        @foreach ($filteredUploads as $upload)
-                            <a href="{{ route('karyawan.preview_Iku', $upload->upload_iku_id) }}" target="_blank">
-                                <img src="{{ asset('storage/' . $upload->file_path) }}" width="100" height="100" style="object-fit: cover; border-radius: 8px;">
-                            </a>
-                            <form action="{{ route('karyawan.destroy_Iku', $upload->upload_iku_id) }}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger mt-2" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                            </form>
-                        @endforeach
-                    @else
-                        <span style="color: gray;">Belum ada file</span>
-                    @endif
-                </td> --}}
 
                 <td>
                     @php
-                        $filteredUploads = $uploads->where('iku_id', $d->iku_id);
+                        $filteredUploads = $uploads->where('iku_id', $d->id);
                         $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
                         $fileIcons = [
                             'pdf' => 'icons/pdf-icon.png',
@@ -82,6 +60,7 @@
                             'ppt' => 'icons/ppt-icon.png',
                             'pptx' => 'icons/ppt-icon.png',
                         ];
+                        // dd($uploads->all());
                     @endphp
                 
                     @if ($filteredUploads->isNotEmpty())
@@ -93,7 +72,7 @@
                                 $iconPath = $fileIcons[$fileExtension] ?? 'icons/default-file-icon.png';
                             @endphp
                 
-                            <a href="{{ route('karyawan.preview_Iku', $upload->upload_iku_id) }}" target="_blank">
+                            <a href="{{ route('karyawan.preview_Iku', $upload->id) }}" target="_blank">
                                 @if ($isImage)
                                     <img src="{{ asset('storage/' . $filePath) }}" width="100" height="100" 
                                          style="object-fit: cover; border-radius: 8px;">
@@ -101,8 +80,9 @@
                                     <img src="{{ asset($iconPath) }}" width="100" height="100" alt="File">
                                 @endif
                             </a>
+                            @fore
                 
-                            <form action="{{ route('karyawan.destroy_Iku', $upload->upload_iku_id) }}" method="POST" style="display: inline;">
+                            <form action="{{ route('karyawan.destroy_Iku', $upload->id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger mt-2" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
@@ -117,7 +97,7 @@
                 <td>
                     <form action="{{ route('karyawan.upload_Iku') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="iku_id" value="{{ $d->iku_id }}">
+                        <input type="hidden" name="iku_id" value="{{ $d->id }}">
                         <input type="file" name="file" class="form-control" required>
                         <button type="submit" class="btn btn-primary mt-2">Upload</button>
                     </form>

@@ -31,12 +31,13 @@
         </select>
     
         <button type="submit" class="btn btn-primary">Filter</button>
-        <a href="{{ route('validator.index') }}" class="btn btn-secondary">Reset</a>
+        <a href="{{ route('validator.dashboard') }}" class="btn btn-secondary">Reset</a>
     </form>
 
     <table class="table table-bordered">
         <thead>
             <tr>
+                <th>Kode</th>
                 <th>Deskripsi Indikator</th>
                 <th>Preview</th>
                 <th>Aksi</th>
@@ -45,20 +46,24 @@
         <tbody>
             @foreach ($indikators as $d)
             <tr>
+                <td>{{ $d->kode_iki }}</td>
                 <td>{{ $d->deskripsi_indikator }}</td>
                 <!-- Filter file hanya yang sesuai dengan indikator -->
                 <td>
                     @php
-                        $filteredUploads = $uploads->where('indikator_id', $d->indikator_id);
+                        $filteredUploads = $uploads->where('iki_id', $d->id);
                         // dd($uploads->all());
                     @endphp
     
                     @if($filteredUploads->isNotEmpty())
                         @foreach ($filteredUploads as $upload)
-                            <a href="{{ route('karyawan.preview_Iki', $upload->upload_id) }}" target="_blank">
-                                <img src="{{ asset('storage/' . $upload->file_path) }}" width="100" height="100" style="object-fit: cover; border-radius: 8px;">
+                        @php
+                            $filePath = $upload->file_path;
+                        @endphp
+                            <a href="{{ route('karyawan.preview_Iki', $upload->id) }}" target="_blank">
+                                <img src="{{ asset('storage/' . $filePath) }}" width="100" height="100" style="object-fit: cover; border-radius: 8px;">
                             </a>
-                            <form action="{{ route('karyawan.destroy_Iki', $upload->upload_id) }}" method="POST" style="display: inline;">
+                            <form action="{{ route('karyawan.destroy_Iki', $upload->id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger mt-2" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
@@ -72,7 +77,7 @@
                 <td>
                     <form action="{{ route('karyawan.upload_Iki') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="indikator_id" value="{{ $d->indikator_id }}">
+                        <input type="hidden" name="iki_id" value="{{ $d->id }}">
 
                         {{-- <label>Ambil File dari Perangkat</label> --}}
                         <input type="file" name="file" class="form-control" required>

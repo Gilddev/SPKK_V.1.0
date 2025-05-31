@@ -18,14 +18,14 @@
     <nav class="navbar shadow-sm navbar-expand-lg navbar-light bg-light">
         <div class="container">
           <img src="{{ asset('images/logo-rs.png') }}" alt="" style="width: 24px; height: 24px; margin-right: 8px" class="pr-5">
-          <a class="navbar-brand" href="{{ route('admin.index') }}"><b>{{env('APP_NAME')}}</b></a>
+          <a class="navbar-brand" href="{{ route('admin.dashboard') }}"><b>{{env('APP_NAME')}}</b></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ route('admin.index') }}">Dashboard</a>
+                <a class="nav-link active" aria-current="page" href="{{ route('admin.dashboard') }}">Dashboard</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{{ route('admin.laporan.index') }}">Laporan</a>
@@ -38,8 +38,9 @@
                   Menu
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="{{ route('admin.create') }}">Tambah User</a></li>
-                  <li><a class="dropdown-item" href="{{ route('admin.table') }}">Tabel User</a></li>
+                  <li><a class="dropdown-item" href="{{ route('admin.user_index') }}">Tabel User</a></li>
+                  <li><a class="dropdown-item" href="{{ route('admin.unit_index') }}">Tabel Unit</a></li>
+                  <li><a class="dropdown-item" href="{{ route('admin.jabatan_index') }}">Tabel Jabatan</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">Log Aktifitas</a></li>
                 </ul>
