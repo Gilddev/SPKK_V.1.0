@@ -1,24 +1,32 @@
-@extends('layouts.admin')
+@extends('layouts.karyawan')
 
 @section('content')
-<div class="container mt-5">
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-    <h2>Edit User</h2>
-    <form action="{{ route('admin.update', $users->id) }}" method="POST">
+
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+<div class="container mt-3 mb-3">
+    <h3>Pengaturan Akun</h3>
+
+    {{-- <form action="{{ route('admin.user_update', $users->id) }}" method="POST">
         @csrf
         @method('PUT')
 
         <div class="mb-3">
-            <label for="nama" class="form-label">Nama Lenkap</label>
-            <input type="text" class="form-control" id="nama" name="name" value="{{ $users->name }}" required>
+            <label for="nik" class="form-label">NIK</label>
+            <input type="text" class="form-control" id="nik" name="nik" value="{{ $users->nik }}" required disabled>
         </div>
 
         <div class="mb-3">
-            <label for="usernama" class="form-label">Username</label>
+            <label for="name" class="form-label">Nama Lengkap</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ $users->name }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
             <input type="text" class="form-control" id="usernama" name="username" value="{{ $users->username }}" required>
         </div>
 
@@ -29,7 +37,7 @@
 
         <div class="mb-3">
             <label for="role" class="form-label">Role</label>
-            <select class="form-control" id="role" name="role">
+            <select class="form-control" id="role" name="role" disabled>
                 <option value="admin" {{ $users->role == 'admin' ? 'selected' : '' }}>Admin</option>
                 <option value="validator" {{ $users->role == 'validator' ? 'selected' : '' }}>Validator</option>
                 <option value="karyawan" {{ $users->role == 'karyawan' ? 'selected' : '' }}>Karyawan</option>
@@ -38,10 +46,10 @@
 
         <div class="mb-3">
             <label for="jabatan_id" class="form-label">Jabatan</label>
-            <select class="form-control" id="jabatan_id" name="jabatan_id">
+            <select class="form-control" id="jabatan_id" name="jabatan_id" disabled>
                 <option value="">-- Pilih Jabatan --</option>
                 @foreach ($jabatans as $jabatan)
-                    <option value="{{ $jabatan->jabatan_id }}" {{ $users->jabatan_id == $jabatan->jabatan_id ? 'selected' : '' }}>
+                    <option value="{{ $jabatan->id }}" {{ $users->jabatan_id == $jabatan->id ? 'selected' : '' }}>
                         {{ $jabatan->nama_jabatan }}
                     </option>
                 @endforeach
@@ -50,18 +58,18 @@
 
         <div class="mb-3">
             <label for="unit_id" class="form-label">Unit</label>
-            <select class="form-control" id="unit_id" name="unit_id">
+            <select class="form-control" id="unit_id" name="unit_id" disabled>
                 <option value="">-- Pilih Unit --</option>
                 @foreach ($units as $unit)
-                    <option value="{{ $unit->unit_id }}" {{ $users->unit_id == $unit->unit_id ? 'selected' : '' }}>
+                    <option value="{{ $unit->id }}" {{ $users->unit_id == $unit->id ? 'selected' : '' }}>
                         {{ $unit->nama_unit }}
                     </option>
                 @endforeach
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        <a href="{{ route('admin.index') }}" class="btn btn-secondary">Batal</a>
-    </form>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{{ route('karyawan.dashboard') }}" class="btn btn-secondary">Kembali</a>
+    </form> --}}
 </div>
 @endsection

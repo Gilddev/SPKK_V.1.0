@@ -1,13 +1,39 @@
 @extends('layouts.karyawan')
 
 @section('content')
+
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
 <div class="container mt-3 mb-3">
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
     <h3>Upload Indikator Kinerja Utama</h3>
+
+    <form action="{{ route('validator.filter_table') }}" method="GET" class="mb-3 d-flex gap-2">
+        <!-- Dropdown Bulan -->
+        <select name="bulan" class="form-control w-auto">
+            <option value="">Pilih Bulan</option>
+            @foreach(range(1, 12) as $m)
+                <option value="{{ $m }}" {{ request('bulan') == $m ? 'selected' : '' }}>
+                    {{ DateTime::createFromFormat('!m', $m)->format('F') }}
+                </option>
+            @endforeach
+        </select>
+    
+        <!-- Dropdown Tahun -->
+        <select name="tahun" class="form-control w-auto">
+            <option value="">Pilih Tahun</option>
+            @foreach(range(date('Y'), date('Y')) as $y)
+                <option value="{{ $y }}" {{ request('tahun') == $y ? 'selected' : '' }}>{{ $y }}</option>
+            @endforeach
+        </select>
+    
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="{{ route('validator.dashboard') }}" class="btn btn-secondary">Reset</a>
+    </form>
+    
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -20,32 +46,10 @@
             @foreach ($indikators as $d)
             <tr>
                 <td>{{ $d->deskripsi_indikator }}</td>
-                <!-- Filter file hanya yang sesuai dengan indikator -->
-                {{-- <td>
-                    @php
-                        $filteredUploads = $uploads->where('iku_id', $d->iku_id);
-                        // dd($uploads->all()); 
-                    @endphp
-    
-                    @if($filteredUploads->isNotEmpty())
-                        @foreach ($filteredUploads as $upload)
-                            <a href="{{ route('karyawan.preview_Iku', $upload->upload_iku_id) }}" target="_blank">
-                                <img src="{{ asset('storage/' . $upload->file_path) }}" width="100" height="100" style="object-fit: cover; border-radius: 8px;">
-                            </a>
-                            <form action="{{ route('karyawan.destroy_Iku', $upload->upload_iku_id) }}" method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger mt-2" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                            </form>
-                        @endforeach
-                    @else
-                        <span style="color: gray;">Belum ada file</span>
-                    @endif
-                </td> --}}
 
                 <td>
                     @php
-                        $filteredUploads = $uploads->where('iku_id', $d->iku_id);
+                        $filteredUploads = $uploads->where('iku_id', $d->id);
                         $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
                         $fileIcons = [
                             'pdf' => 'icons/pdf-icon.png',
@@ -56,6 +60,7 @@
                             'ppt' => 'icons/ppt-icon.png',
                             'pptx' => 'icons/ppt-icon.png',
                         ];
+                        // dd($uploads->all());
                     @endphp
                 
                     @if ($filteredUploads->isNotEmpty())
@@ -67,7 +72,7 @@
                                 $iconPath = $fileIcons[$fileExtension] ?? 'icons/default-file-icon.png';
                             @endphp
                 
-                            <a href="{{ route('karyawan.preview_Iku', $upload->upload_iku_id) }}" target="_blank">
+                            <a href="{{ route('karyawan.preview_Iku', $upload->id) }}" target="_blank">
                                 @if ($isImage)
                                     <img src="{{ asset('storage/' . $filePath) }}" width="100" height="100" 
                                          style="object-fit: cover; border-radius: 8px;">
@@ -75,8 +80,9 @@
                                     <img src="{{ asset($iconPath) }}" width="100" height="100" alt="File">
                                 @endif
                             </a>
+                            @fore
                 
-                            <form action="{{ route('karyawan.destroy_Iku', $upload->upload_iku_id) }}" method="POST" style="display: inline;">
+                            <form action="{{ route('karyawan.destroy_Iku', $upload->id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger mt-2" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
@@ -91,7 +97,7 @@
                 <td>
                     <form action="{{ route('karyawan.upload_Iku') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="iku_id" value="{{ $d->iku_id }}">
+                        <input type="hidden" name="iku_id" value="{{ $d->id }}">
                         <input type="file" name="file" class="form-control" required>
                         <button type="submit" class="btn btn-primary mt-2">Upload</button>
                     </form>

@@ -25,6 +25,7 @@
     
         <button type="submit" class="btn btn-primary">Filter</button>
         <a href="{{ route('validator.index') }}" class="btn btn-secondary">Reset</a>
+        <a href="{{ route('validator.excel') }}" class="btn btn-success">Export</a>
     </form>    
 
     @foreach($rekapPenilaian as $unit => $karyawanList)
@@ -39,8 +40,9 @@
                             <th>No</th>
                             <th>Nama Karyawan</th>
                             <th>Total IKU</th>
+                            <th>IKU Valid</th>
                             <th>Total IKI</th>
-                            <th>Jumlah Valid</th>
+                            <th>IKI Valid</th>
                             <th>Persentase Kinerja</th>
                         </tr>
                     </thead>
@@ -52,9 +54,10 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $karyawan->name }}</td>
                                     <td>{{ $karyawan->rekapPenilaian->total_iku ?? 0 }}</td>
+                                    <td>{{ $karyawan->rekapPenilaian->jumlah_valid_iku ?? 0 }}</td>
                                     <td>{{ $karyawan->rekapPenilaian->total_iki ?? 0 }}</td>
-                                    <td>{{ $karyawan->rekapPenilaian->jumlah_valid ?? 0 }}</td>
-                                    <td>{{ $karyawan->rekapPenilaian->persentase_valid ?? 0 }}%</td>
+                                    <td>{{ $karyawan->rekapPenilaian->jumlah_valid_iki ?? 0 }}</td>
+                                    <td>{{ $karyawan->rekapPenilaian->persentase_kinerja ?? 0 }}%</td>
                                 </tr>
                             @endif
                         @endforeach

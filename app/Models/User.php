@@ -18,6 +18,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'nik',
         'name',
         'username',
         'email',
@@ -28,36 +29,40 @@ class User extends Authenticatable
     ];
 
     public function jabatan(){
-        return $this->belongsTo(Jabatan::class, 'jabatan_id', 'jabatan_id');
+        return $this->belongsTo(Jabatan::class, 'jabatan_id');
     }
 
     public function unit(){
-        return $this->belongsTo(Unit::class, 'unit_id', 'unit_id');
+        return $this->belongsTo(Unit::class, 'unit_id');
     }
 
     public function iku(){
-        return $this->hasMany(IndikatorKinerjaUtama::class, 'iku_id', 'iku_id');
+        return $this->hasMany(Iku::class);
+    
+    }
+    public function iki(){
+        return $this->hasMany(Iki::class);
     }
 
     public function uploadIku(){
-        return $this->hasMany(UploadIku::class, 'id', 'id');
+        return $this->hasMany(UploadIku::class);
     }
 
     public function uploadIki(){
-        return $this->hasMany(Upload::class, 'id', 'id');
+        return $this->hasMany(UploadIki::class);
     }
 
     public function penilaianIku(){
-        return $this->hasMany(PenilaianIku::class, 'id');
+        return $this->hasMany(PenilaianIku::class);
     }
 
     public function penilaianIki(){
-        return $this->hasMany(PenilaianIki::class, 'id');
+        return $this->hasMany(PenilaianIki::class);
     }
 
     public function rekapPenilaian()
     {
-        return $this->hasOne(RekapPenilaianIku::class, 'id', 'id'); // id pada tabel user = id pada tabel rekap_penilaian
+        return $this->hasOne(RekapPenilaian::class); // id pada tabel user = id pada tabel rekap_penilaian
     }
 
     /**

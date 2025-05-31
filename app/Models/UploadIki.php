@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UploadIku extends Model
+class UploadIki extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'periode_penilaian',
+        'unit_id',
         'user_id',
-        'iku_id', 
+        'iki_id',
         'file_path'
     ];
 
@@ -21,8 +22,8 @@ class UploadIku extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function iku()
+    public function iki()
     {
-        return $this->belongsTo(Iku::class, 'iku_id');
+        return $this->belongsTo(Iki::class, 'iki_id');
     }
 }

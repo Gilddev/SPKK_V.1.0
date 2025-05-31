@@ -8,7 +8,7 @@
             <h3>Tabel Indikator Kinerja Individu</h3>
         </div>
         <div class="col text-end">
-                <a href="{{ route('validator.create_Iki') }}" class="btn btn-primary btn-sm">Tambah Indikator</a>
+                <a href="{{ route('validator.iki_create') }}" class="btn btn-primary btn-sm">Tambah Indikator</a>
         </div>
     </div>
 
@@ -18,6 +18,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>Kode</th>
                         <th>Indikator Penilaian</th>
                         <th>Indikator Keberhasilan</th>
                         <th>Parameter</th>
@@ -27,13 +28,14 @@
                 <tbody>
                     @foreach ($indikatorUnit as $d)
                         <tr>
+                            <td>{{ $d->kode_iki }}</td>
                             <td>{{ $d->deskripsi_indikator }}</td>
                             <td>{{ $d->indikator_keberhasilan }}</td>
                             <td>{{ $d->parameter }}</td>
                             <td>
-                                <a href="{{ route('validator.edit_Iki', $d->indikator_id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ $d->indikator_id }})">Hapus</button>
-                                <form id="delete-form-{{ $d->indikator_id }}" action="{{ route('validator.destroy_Iki', $d->indikator_id) }}" method="POST" style="display: none;">
+                                <a href="{{ route('validator.iki_edit', $d->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <button class="btn btn-danger btn-sm" onclick="confirmDelete({{ $d->id }})">Hapus</button>
+                                <form id="delete-form-{{ $d->id }}" action="{{ route('validator.iki_delete', $d->id) }}" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
                                 </form>

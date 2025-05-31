@@ -28,12 +28,15 @@ class IndikatorKinerjaUtamaController extends Controller
             'indikator_keberhasilan' => 'required|string|max:255',
             'parameter' => 'required|string|max:255',
             'unit_id' => 'required|exists:units,id',
+            'berulang' => 'required'
         ]);
+        dd($request);
 
         IndikatorKinerjaUtama::create([
             'deskripsi_indikator' => $request->deskripsi_indikator,
             'indikator_keberhasilan' => $request->indikator_keberhasilan,
             'parameter' => $request->parameter,
+            'berulang' => $request->berulang,
             'id' => Auth::id(),
         ]);
 

@@ -8,8 +8,14 @@
         </div>
     @endif
     <h2>Tambah User Baru</h2>
-    <form action="{{ route('admin.store') }}" method="POST">
+    <form action="{{ route('admin.user_store') }}" method="POST">
         @csrf
+
+        <!-- Nik -->
+        <div class="mb-3">
+            <label for="nik" class="form-label">NIK</label>
+            <input type="number" class="form-control" name="nik" required>
+        </div>
 
         <!-- Nama Lengkap -->
         <div class="mb-3">
@@ -46,7 +52,7 @@
             <select name="unit_id" class="form-control" required>
                 <option value="">Pilih Unit</option>
                 @foreach($units as $unit)
-                    <option value="{{ $unit->unit_id }}">{{ $unit->nama_unit }}</option>
+                    <option value="{{ $unit->id }}">{{ $unit->nama_unit }}</option>
                 @endforeach
             </select>
         </div>
@@ -57,14 +63,17 @@
             <select name="jabatan_id" class="form-control" required>
                 <option value="">Pilih Jabatan</option>
                 @foreach($jabatans as $jabatan)
-                    <option value="{{ $jabatan->jabatan_id }}">{{ $jabatan->nama_jabatan }}</option>
+                    <option value="{{ $jabatan->id }}">{{ $jabatan->nama_jabatan }}</option>
                 @endforeach
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        <button type="reset" class="btn btn-warning">Clear</button>
-        <a href="{{ route('admin.index') }}" class="btn btn-secondary">Batal</a>
+        <div>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <button type="reset" class="btn btn-warning">Clear</button>
+            <a href="{{ route('admin.user_index') }}" class="btn btn-secondary">Batal</a>
+        </div>
+
     </form>
 </div>
 @endsection

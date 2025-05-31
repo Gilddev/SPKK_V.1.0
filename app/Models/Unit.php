@@ -10,11 +10,16 @@ class Unit extends Model
 {
     use HasFactory;
 
-    protected $table = 'units';
-    protected $primaryKey = 'unit_id';
-    protected $fillable = ['nama_unit'];
+    protected $fillable = [
+        'kode_unit', 
+        'nama_unit'
+    ];
 
     public function users(){
-        return $this->hasMany(User::class, 'unit_id', 'unit_id');
+        return $this->hasMany(User::class, 'unit_id');
+    }
+
+    public function iki(){
+        return $this->hasMany(Iki::class, 'unit_id');
     }
 }

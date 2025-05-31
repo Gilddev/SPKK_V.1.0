@@ -2,8 +2,9 @@
 
 @section('content')
 <div class="container">
+
     <h2 class="mb-4 mt-4">Laporan Penilaian Kinerja</h2>
-    <p>Bulan: {{ $bulan }}, Tahun: {{ $tahun }}</p>
+    <h4>Bulan {{ $bulan }} Tahun {{ $tahun }}</h4>
 
     @foreach($rekapPenilaian as $unit => $karyawanList)
     <div class="card mb-4">

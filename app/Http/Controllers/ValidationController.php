@@ -40,6 +40,24 @@ class ValidationController extends Controller
         return view('validation.index_iki', compact('dataKaryawan', 'unit', 'jabatan'));
     }
 
+    public function filter_iku(Request $request)
+    {
+        $bulan = $request->input('bulan');
+        $tahun = $request->input('tahun');
+
+        // Query untuk filter berdasarkan bulan & tahun
+        $rekapPenilaian = User::with(['rekapPenilaian' => function ($query) use ($bulan, $tahun) {
+            if ($bulan) {
+                $query->whereMonth('created_at', $bulan);
+            }
+            if ($tahun) {
+                $query->whereYear('created_at', $tahun);
+            }
+        }])->where('role', 'karyawan')->get()->groupBy('unit.nama_unit');
+
+        return view('rolevalidator.index', compact('rekapPenilaian', 'bulan', 'tahun'));
+    }
+
     public function show_iku($id){    
         // Ambil data karyawan
         $karyawan = User::findOrFail($id);
@@ -157,22 +175,6 @@ class ValidationController extends Controller
         return back()->with('success', 'Penilaian berhasil disimpan.');
     }
 
-    // public function deletePenilaian_iku($id)
-    // {
-    //     // Hapus data penilaian
-    //     PenilaianIku::where('penilaian_iku_id', $id)->delete();
-
-    //     return back()->with('success', 'Penilaian berhasil dibatalkan.');
-    // }
-
-    // public function deletePenilaian_iki($id)
-    // {
-    //     // Hapus data penilaian
-    //     PenilaianIki::where('penilaian_iki_id', $id)->delete();
-
-    //     return back()->with('success', 'Penilaian berhasil dibatalkan.');
-    // }
-
     public function deletePenilaian_iku($penilaian_iku_id)
     {
         // Ambil data indikator yang akan dihapus
@@ -243,42 +245,4 @@ class ValidationController extends Controller
             ]
         );
     }
-
-    // public function deletePenilaian_iku($id, $indikatorType)
-    // {
-    //     $user = User::findOrFail($id);
-
-    //     // Pastikan parameter indikatorType dikirim dengan benar
-    //     if (!in_array($indikatorType, ['iku', 'iki'])) {
-    //         abort(404); // Jika parameter salah, munculkan error 404
-    //     }
-
-    //     // Hapus data dari tabel yang sesuai
-    //     if ($indikatorType == 'iku') {
-    //         PenilaianIku::where('id', $id)->delete();
-    //     } elseif ($indikatorType == 'iki') {
-    //         PenilaianIki::where('id', $id)->delete();
-    //     }
-
-    //     // Hitung ulang jumlah valid setelah penghapusan
-    //     $jumlahValidIKU = PenilaianIku::where('id', $id)->where('status', 'valid')->count();
-    //     $jumlahValidIKI = PenilaianIki::where('id', $id)->where('status', 'valid')->count();
-    //     $jumlahValid = $jumlahValidIKU + $jumlahValidIKI;
-
-    //     // Hitung total indikator yang harus diisi
-    //     $totalIKU = IndikatorKinerjaUtama::count();
-    //     $totalIKI = IndikatorKinerjaIndividu::where('unit_id', $user->unit_id)->count();
-    //     $totalIndikator = $totalIKU + $totalIKI;
-
-    //     // Hitung ulang persentase valid
-    //     $persentaseValid = ($totalIndikator > 0) ? ($jumlahValid / $totalIndikator) * 100 : 0;
-
-    //     // Update rekap penilaian
-    //     RekapPenilaianIku::where('id', $id)->update([
-    //         'jumlah_valid' => $jumlahValid,
-    //         'persentase_valid' => $persentaseValid
-    //     ]);
-
-    //     return redirect()->back()->with('success', 'Validasi dibatalkan dan data diperbarui!');
-    // }
 }
