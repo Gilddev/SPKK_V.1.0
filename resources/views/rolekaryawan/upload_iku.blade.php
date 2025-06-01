@@ -80,7 +80,6 @@
                                     <img src="{{ asset($iconPath) }}" width="100" height="100" alt="File">
                                 @endif
                             </a>
-                            @fore
                 
                             <form action="{{ route('karyawan.destroy_Iku', $upload->id) }}" method="POST" style="display: inline;">
                                 @csrf

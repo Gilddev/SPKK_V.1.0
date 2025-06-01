@@ -32,17 +32,19 @@
     <script>
         // Chart Total Karyawan dan validator
         let totalKaryawan = {{ $totalKaryawan }};
-        let totalValidator = {{ $totalValidator }};
+        // let totalValidator = {{ $totalValidator }};
 
         // Inisialisasi Grafik Total User
         var ctx1 = document.getElementById('totalUserChart').getContext('2d');
         var totalUserChart = new Chart(ctx1, {
             type: 'bar',
             data: {
-                labels: ['Karyawan', 'Validator'],
+                // labels: ['Karyawan', 'Validator'],
+                labels: ['Karyawan'],
                 datasets: [{
-                    label: 'Jumlah Per Role',
-                    data: [totalKaryawan, totalValidator],
+                    label: 'Jumlah Karyawan',
+                    // data: [totalKaryawan, totalValidator],
+                    data: [totalKaryawan],
                     backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(255, 99, 132, 0.6)'],
                     borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
                     borderWidth: 1

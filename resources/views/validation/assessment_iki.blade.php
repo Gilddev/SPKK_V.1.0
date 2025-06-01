@@ -34,7 +34,7 @@
                 <td>{{ $iki->deskripsi_indikator }}</td>
                 <td>
                     @php
-                        $uploadedFile = $uploads->where('indikator_id', $iki->indikator_id)->first();
+                        $uploadedFile = $uploads->where('iki_id', $iki->id)->first();
                         $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
                         $fileIcons = [
                             'pdf' => 'icons/pdf-icon.png',
@@ -55,10 +55,10 @@
                             $iconPath = $fileIcons[$fileExtension] ?? 'icons/default-file-icon.png';
 
                             // Cek apakah penilaian sudah dilakukan oleh validator
-                            $penilaianTersimpan = $penilaian->where('indikator_id', $iki->indikator_id)->first();
+                            $penilaianTersimpan = $penilaian->where('iki_id', $iki->id)->first();
                         @endphp
                 
-                        <a href="{{ route('validation.preview_iki', $uploadedFile->upload_id) }}" target="_blank">
+                        <a href="{{ route('validation.preview_iki', $uploadedFile->id) }}" target="_blank">
                             @if ($isImage)
                                 <img src="{{ asset('storage/' . $filePath) }}" width="100" height="100" 
                                      style="object-fit: cover; border-radius: 8px;">
@@ -77,8 +77,8 @@
                             <!-- Jika belum ada penilaian, tampilkan tombol Valid -->
                             <form action="{{ route('validation.store_penilaian_iki') }}" method="POST" style="display: inline;">
                                 @csrf
-                                <input type="hidden" name="karyawan_id" value="{{ $karyawan->id }}">
-                                <input type="hidden" name="indikator_id" value="{{ $iki->indikator_id }}">
+                                <input type="hidden" name="user_id" value="{{ $karyawan->id }}">
+                                <input type="hidden" name="iki_id" value="{{ $iki->id }}">
                                 <input type="hidden" name="status" value="valid">
                                 <button type="submit" class="btn btn-success">Valid</button>
                             </form>
@@ -89,7 +89,7 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Batal</button>
                             </form> --}}
-                            <form action="{{ route('validation.delete_penilaian_iki', $penilaianTersimpan->penilaian_iki_id) }}" method="POST" style="display: inline;">
+                            <form action="{{ route('validation.delete_penilaian_iki', $penilaianTersimpan->iki_id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Batal</button>

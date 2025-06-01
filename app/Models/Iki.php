@@ -32,6 +32,6 @@ class Iki extends Model
     }
 
     public function penilaianIki(){
-        return $this->hasOne(PenilaianIku::class);
+        return $this->hasOne(PenilaianIki::class);
     }
 }

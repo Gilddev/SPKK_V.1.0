@@ -24,7 +24,7 @@
         </select>
     
         <button type="submit" class="btn btn-primary">Filter</button>
-        <a href="{{ route('validator.index') }}" class="btn btn-secondary">Reset</a>
+        {{-- <a href="" class="btn btn-secondary">Reset</a> --}}
         <a href="{{ route('validator.excel') }}" class="btn btn-success">Export</a>
     </form>    
 
@@ -49,7 +49,7 @@
                     <tbody>
                         @php $no = 1; @endphp
                         @foreach($karyawanList as $karyawan)
-                            @if ($karyawan->rekapPenilaian)
+                            {{-- @if ($karyawan->rekapPenilaian) --}}
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $karyawan->name }}</td>
@@ -59,7 +59,7 @@
                                     <td>{{ $karyawan->rekapPenilaian->jumlah_valid_iki ?? 0 }}</td>
                                     <td>{{ $karyawan->rekapPenilaian->persentase_kinerja ?? 0 }}%</td>
                                 </tr>
-                            @endif
+                            {{-- @endif --}}
                         @endforeach
                     </tbody>
                 </table>

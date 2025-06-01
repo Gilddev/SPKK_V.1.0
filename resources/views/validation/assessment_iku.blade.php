@@ -34,7 +34,7 @@
                 <td>{{ $iku->deskripsi_indikator }}</td>
                 <td>
                     @php
-                        $uploadedFile = $uploads->where('iku_id', $iku->iku_id)->first();
+                        $uploadedFile = $uploads->where('iku_id', $iku->id)->first();
                         $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
                         $fileIcons = [
                             'pdf' => 'icons/pdf-icon.png',
@@ -55,10 +55,10 @@
                             $iconPath = $fileIcons[$fileExtension] ?? 'icons/default-file-icon.png';
 
                             // Cek apakah penilaian sudah dilakukan oleh validator
-                            $penilaianTersimpan = $penilaian->where('iku_id', $iku->iku_id)->first();
+                            $penilaianTersimpan = $penilaian->where('iku_id', $iku->id)->first();
                         @endphp
                 
-                        <a href="{{ route('validation.preview_iku', $uploadedFile->upload_iku_id) }}" target="_blank">
+                        <a href="{{ route('validation.preview_iku', $uploadedFile->id) }}" target="_blank">
                             @if ($isImage)
                                 <img src="{{ asset('storage/' . $filePath) }}" width="100" height="100" 
                                      style="object-fit: cover; border-radius: 8px;">
@@ -77,15 +77,15 @@
                             <!-- Jika belum ada penilaian, tampilkan tombol Valid -->
                             <form action="{{ route('validation.store_penilaian_iku') }}" method="POST" style="display: inline;">
                                 @csrf
-                                <input type="hidden" name="karyawan_id" value="{{ $karyawan->id }}">
-                                <input type="hidden" name="iku_id" value="{{ $iku->iku_id }}">
+                                <input type="hidden" name="user_id" value="{{ $karyawan->id }}">
+                                <input type="hidden" name="iku_id" value="{{ $iku->id }}">
                                 <input type="hidden" name="status" value="valid">
                                 <button type="submit" class="btn btn-success">Valid</button>
                             </form>
                         @else
                             <!-- Jika sudah dinilai, tampilkan tombol Batal -->
                             {{-- <form action="{{ route('validation.delete_penilaian_iku', ['id' => $penilaianTersimpan->penilaian_iku_id, 'indikatorType' => 'iku']) }}" method="POST" style="display: inline;"> --}}
-                            <form action="{{ route('validation.delete_penilaian_iku', $penilaianTersimpan->penilaian_iku_id) }}" method="POST" style="display: inline;">
+                            <form action="{{ route('validation.delete_penilaian_iku', $penilaianTersimpan->iku_id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Batal</button>

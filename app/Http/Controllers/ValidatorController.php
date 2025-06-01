@@ -24,14 +24,14 @@ class ValidatorController extends Controller
         $totalValidator = User::where('role', 'validator')->count();
 
         // Ambil 5 karyawan dengan persentase kinerja tertinggi
-        $top5Karyawan = RekapPenilaian::join('users', 'rekap_penilaians.id', '=', 'users.id')
+        $top5Karyawan = RekapPenilaian::join('users', 'rekap_penilaians.user_id', '=', 'users.id')
             ->select('users.name', 'rekap_penilaians.persentase_kinerja')
             ->orderBy('persentase_kinerja', 'desc')
             ->limit(5)
             ->get();
 
         // Ambil 5 karyawan dengan persentase kinerja terendah
-        $bottom5Karyawan = RekapPenilaian::join('users', 'rekap_penilaians.id', '=', 'users.id')
+        $bottom5Karyawan = RekapPenilaian::join('users', 'rekap_penilaians.user_id', '=', 'users.id')
             ->select('users.name', 'rekap_penilaians.persentase_kinerja')
             ->orderBy('persentase_kinerja', 'asc')
             ->limit(5)
@@ -236,30 +236,6 @@ class ValidatorController extends Controller
         }
     }
     
-    
-    // fungsi menampilkan tampilan index/dashboard
-    public function index(){
-        // Ambil total karyawan dan validator
-        $totalKaryawan = User::where('role', 'karyawan')->count();
-        $totalValidator = User::where('role', 'validator')->count();
-
-        // Ambil 5 karyawan dengan persentase kinerja tertinggi
-        $top5Karyawan = RekapPenilaian::join('users', 'rekap_penilaian.id', '=', 'users.id')
-            ->select('users.name', 'rekap_penilaian.persentase_kinerja')
-            ->orderBy('persentase_kinerja', 'desc')
-            ->limit(5)
-            ->get();
-
-        // Ambil 5 karyawan dengan persentase kinerja terendah
-        $bottom5Karyawan = RekapPenilaian::join('users', 'rekap_penilaian.id', '=', 'users.id')
-            ->select('users.name', 'rekap_penilaian.persentase_kinerja')
-            ->orderBy('persentase_kinerja', 'asc')
-            ->limit(5)
-            ->get();
-
-        return view('rolevalidator.index', compact('totalKaryawan', 'totalValidator', 'top5Karyawan', 'bottom5Karyawan'));
-    }
-    
     public function laporan(){
         $users = User::with('jabatan','unit')->get();
         $units = Unit::all();
@@ -289,7 +265,7 @@ class ValidatorController extends Controller
             }
         }])->where('role', 'karyawan')->get()->groupBy('unit.nama_unit');
 
-        return view('rolevalidator.index', compact('rekapPenilaian', 'bulan', 'tahun'));
+        return view('rolevalidator.laporan', compact('rekapPenilaian', 'bulan', 'tahun'));
     }
 
     // Fungsi menampilkan chart
@@ -299,12 +275,12 @@ class ValidatorController extends Controller
         $totalKaryawan = User::count();
 
         // Ambil data persentase kinerja setiap karyawan
-        $karyawanData = RekapPenilaian::join('users', 'rekap_penilaian.id', '=', 'users.id')
-            ->select('users.name', 'rekap_penilaian.persentase_kinerja')
+        $karyawanData = RekapPenilaian::join('users', 'rekap_penilaians.user_id', '=', 'users.id')
+            ->select('users.name', 'rekap_penilaians.persentase_kinerja')
             ->orderBy('persentase_kinerja', 'desc')
             ->get();
 
-        return view('dashboard.grafik', compact('totalKaryawan', 'karyawanData'));
+        return view('rolevalidator.dashboard', compact('totalKaryawan', 'karyawanData'));
     }
     //------------------------------------------------------------------------------------------------------------
     

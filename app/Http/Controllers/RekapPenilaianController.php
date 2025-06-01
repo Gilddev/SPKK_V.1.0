@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\IndikatorKinerjaUtama;
-use App\Models\IndikatorKinerjaIndividu;
+use App\Models\Iku;
+use App\Models\Iki;
 use App\Models\PenilaianIku;
 use App\Models\PenilaianIki;
-use App\Models\RekapPenilaianIku;
+use App\Models\RekapPenilaian;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\redirect;
@@ -17,13 +17,18 @@ class RekapPenilaianController extends Controller
     {
         $user = User::findOrFail($id);
 
+        // Ambil tahun dan bulan saat ini
+        $tahun = now()->format('Y'); // contoh: 2025
+        $bulan = now()->format('m'); // contoh: 05
+        $periode = $tahun . $bulan;  // hasil: 202505
+
         // Hitung total indikator yang harus diisi oleh karyawan ini
-        $totalIKU = IndikatorKinerjaUtama::count(); // Semua karyawan wajib mengisi IKU
-        $totalIKI = IndikatorKinerjaIndividu::where('unit_id', $user->unit_id)->count(); // Berdasarkan unit kerja
+        $totalIKU = Iku::count(); // Semua karyawan wajib mengisi IKU
+        $totalIKI = Iki::where('unit_id', $user->unit_id)->count(); // Berdasarkan unit kerja
 
         // Hitung jumlah valid untuk IKU dan IKI
-        $jumlahValidIKU = PenilaianIku::where('id', $id)->where('status', 'valid')->count();
-        $jumlahValidIKI = PenilaianIki::where('id', $id)->where('status', 'valid')->count();
+        $jumlahValidIKU = PenilaianIku::where('user_id', $id)->where('status', 'valid')->count();
+        $jumlahValidIKI = PenilaianIki::where('user_id', $id)->where('status', 'valid')->count();
 
         // Perhitungan persentase valid masing-masing
         $persentaseValidIKU = ($totalIKU > 0) ? ($jumlahValidIKU / $totalIKU) * 100 : 0;
@@ -37,9 +42,10 @@ class RekapPenilaianController extends Controller
         $persentaseKinerja = ($persentaseValidIKU * $bobotIKU) + ($persentaseValidIKI * $bobotIKI);
 
         // Simpan atau update rekap penilaian
-        RekapPenilaianIku::updateOrCreate(
-            ['id' => $id], // Berdasarkan ID Karyawan
+        RekapPenilaian::updateOrCreate(
+            ['user_id' => $id], // Berdasarkan ID Karyawan
             [
+                'periode_rekap' => $periode,
                 'total_iku' => $totalIKU,
                 'total_iki' => $totalIKI,
                 'jumlah_valid_iku' => $jumlahValidIKU,
