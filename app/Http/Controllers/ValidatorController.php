@@ -20,24 +20,25 @@ class ValidatorController extends Controller
 
     public function dashboard(){
         // Ambil total karyawan dan validator
-        $totalKaryawan = User::where('role', 'karyawan')->count();
-        $totalValidator = User::where('role', 'validator')->count();
+        // $totalKaryawan = User::where('role', 'karyawan')->count();
+        // $totalValidator = User::where('role', 'validator')->count();
 
         // Ambil 5 karyawan dengan persentase kinerja tertinggi
-        $top5Karyawan = RekapPenilaian::join('users', 'rekap_penilaians.user_id', '=', 'users.id')
-            ->select('users.name', 'rekap_penilaians.persentase_kinerja')
-            ->orderBy('persentase_kinerja', 'desc')
-            ->limit(5)
-            ->get();
+        // $top5Karyawan = RekapPenilaian::join('users', 'rekap_penilaians.user_id', '=', 'users.id')
+        //     ->select('users.name', 'rekap_penilaians.persentase_kinerja')
+        //     ->orderBy('persentase_kinerja', 'desc')
+        //     ->limit(5)
+        //     ->get();
 
-        // Ambil 5 karyawan dengan persentase kinerja terendah
-        $bottom5Karyawan = RekapPenilaian::join('users', 'rekap_penilaians.user_id', '=', 'users.id')
-            ->select('users.name', 'rekap_penilaians.persentase_kinerja')
-            ->orderBy('persentase_kinerja', 'asc')
-            ->limit(5)
-            ->get();
+        // // Ambil 5 karyawan dengan persentase kinerja terendah
+        // $bottom5Karyawan = RekapPenilaian::join('users', 'rekap_penilaians.user_id', '=', 'users.id')
+        //     ->select('users.name', 'rekap_penilaians.persentase_kinerja')
+        //     ->orderBy('persentase_kinerja', 'asc')
+        //     ->limit(5)
+        //     ->get();
 
-        return view('rolevalidator.dashboard', compact('totalKaryawan', 'totalValidator', 'top5Karyawan', 'bottom5Karyawan'));
+        // return view('rolevalidator.dashboard', compact('totalKaryawan', 'totalValidator', 'top5Karyawan', 'bottom5Karyawan'));
+        return view('rolevalidator.dashboard');
     }
 
     // function IKI ===============================================================================================================================================================================================================

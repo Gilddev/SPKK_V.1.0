@@ -10,7 +10,10 @@ class PenilaianIku extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 
+        'tahun', 
+        'bulan', 
+        'karyawan_id', 
+        'validator_id', 
         'iku_id', 
         'status'
     ];
@@ -23,5 +26,15 @@ class PenilaianIku extends Model
     public function iku()
     {
         return $this->belongsTo(Iku::class);
+    }
+
+    public function karyawan()
+    {
+        return $this->belongsTo(User::class, 'karyawan_id');
+    }
+
+    public function validator()
+    {
+        return $this->belongsTo(User::class, 'validator_id');
     }
 }

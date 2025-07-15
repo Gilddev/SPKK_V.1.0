@@ -10,7 +10,10 @@ class PenilaianIki extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'tahun', 
+        'bulan', 
+        'karyawan_id', 
+        'validator_id',
         'iki_id', 
         'status'
     ];
@@ -23,5 +26,15 @@ class PenilaianIki extends Model
     public function iki()
     {
         return $this->belongsTo(Iki::class);
+    }
+
+    public function karyawan()
+    {
+        return $this->belongsTo(User::class, 'karyawan_id');
+    }
+
+    public function validator()
+    {
+        return $this->belongsTo(User::class, 'validator_id');
     }
 }

@@ -70,9 +70,9 @@ class ValidationController extends Controller
         $indikator = Iku::all();
 
         // Ambil semua file yang diupload oleh karyawan ini
-        $uploads = UploadIku::where('user_id', $id)->get();
+        $uploads = UploadIku::where('karyawan_id', $id)->get();
 
-        $penilaian = PenilaianIku::where('user_id', $id)->get();
+        $penilaian = PenilaianIku::where('karyawan_id', $id)->get();
 
         return view('validation.assessment_iku', compact('karyawan', 'indikator', 'uploads', 'penilaian'));
         // return view('validation.assessment_iku', compact('karyawan', 'indikator', 'uploads'));
@@ -86,9 +86,9 @@ class ValidationController extends Controller
         $indikator = Iki::where('unit_id', $karyawan->unit_id)->get();
 
         // Ambil semua file yang diupload oleh karyawan ini
-        $uploads = UploadIki::where('user_id', $id)->get();
+        $uploads = UploadIki::where('karyawan_id', $id)->get();
 
-        $penilaian = PenilaianIki::where('user_id', $id)->get();
+        $penilaian = PenilaianIki::where('karyawan_id', $id)->get();
 
         return view('validation.assessment_iki', compact('karyawan', 'indikator', 'uploads','penilaian'));
     }
@@ -119,7 +119,7 @@ class ValidationController extends Controller
     {
         // Validasi data yang dikirim
         $request->validate([
-            'user_id' => 'required|exists:users,id',
+            'karyawan_id' => 'required|exists:users,id',
             'iku_id'=> 'required',
             'status'      => 'required|in:valid'
         ]);
@@ -127,7 +127,7 @@ class ValidationController extends Controller
         // Simpan data ke tabel penilaian_ikus
         // Jika penilaian sudah ada untuk indikator dan karyawan yang sama, Anda bisa menolak atau mengupdate data
         $existing = PenilaianIku::where('iku_id', $request->iku_id)
-                    ->where('user_id', $request->user_id) // 'id' di sini menyimpan ID karyawan yang dinilai
+                    ->where('karyawan_id', $request->karyawan_id) // 'id' di sini menyimpan ID karyawan yang dinilai
                     ->first();
 
         if ($existing) {
@@ -135,7 +135,7 @@ class ValidationController extends Controller
         }
 
         PenilaianIku::create([
-            'user_id' => $request->user_id, 
+            'karyawan_id' => $request->karyawan_id, 
             'iku_id' => $request->iku_id,
             'status' => 'valid',
         ]);
@@ -143,7 +143,7 @@ class ValidationController extends Controller
         // dd($request->karyawan_id);
 
         // Panggil fungsi update rekap
-        (new RekapPenilaianController)->updateRekapPenilaian($request->user_id);
+        (new RekapPenilaianController)->updateRekapPenilaian($request->karyawan_id);
 
         return back()->with('success', 'Penilaian berhasil disimpan.');
     }
@@ -152,7 +152,7 @@ class ValidationController extends Controller
     {
         // Validasi data yang dikirim
         $request->validate([
-            'user_id' => 'required|exists:users,id',
+            'karyawan_id' => 'required|exists:users,id',
             'iki_id'=> 'required',
             'status'      => 'required|in:valid'
         ]);
@@ -160,7 +160,7 @@ class ValidationController extends Controller
         // Simpan data ke tabel penilaian_ikus
         // Jika penilaian sudah ada untuk indikator dan karyawan yang sama, Anda bisa menolak atau mengupdate data
         $existing = PenilaianIki::where('iki_id', $request->iki_id)
-                    ->where('user_id', $request->user_id) // 'id' di sini menyimpan ID karyawan yang dinilai
+                    ->where('karyawan_id', $request->karyawan_id) // 'id' di sini menyimpan ID karyawan yang dinilai
                     ->first();
 
         if ($existing) {
@@ -168,13 +168,13 @@ class ValidationController extends Controller
         }
 
         PenilaianIki::create([
-            'user_id' => $request->user_id, 
+            'karyawan_id' => $request->karyawan_id, 
             'iki_id' => $request->iki_id,
             'status' => 'valid',
         ]);
 
         // Panggil fungsi update rekap
-        (new RekapPenilaianController)->updateRekapPenilaian($request->user_id);
+        (new RekapPenilaianController)->updateRekapPenilaian($request->karyawan_id);
 
         return back()->with('success', 'Penilaian berhasil disimpan.');
     }
@@ -190,7 +190,7 @@ class ValidationController extends Controller
         }
     
         // Simpan ID karyawan untuk update rekap setelah penghapusan
-        $idKaryawan = $penilaian->user_id; // ID karyawan, bukan ID indikator
+        $idKaryawan = $penilaian->karyawan_id; // ID karyawan, bukan ID indikator
     
         // Hapus hanya satu indikator
         PenilaianIku::where('iku_id', $id)->delete();
@@ -211,7 +211,7 @@ class ValidationController extends Controller
         }
 
         // Simpan ID karyawan sebelum menghapus data
-        $idKaryawan = $penilaian->user_id;
+        $idKaryawan = $penilaian->karyawan_id;
 
         // Hapus data penilaian
         PenilaianIki::where('iki_id', $id)->delete();
@@ -236,8 +236,8 @@ class ValidationController extends Controller
         $totalIKI = Iki::where('unit_id', $user->unit_id)->count();
 
         // Hitung jumlah valid indikator yang MASIH ADA setelah penghapusan
-        $jumlahValidIKU = PenilaianIku::where('user_id', $idKaryawan)->where('status', 'valid')->count();
-        $jumlahValidIKI = PenilaianIki::where('user_id', $idKaryawan)->where('status', 'valid')->count();
+        $jumlahValidIKU = PenilaianIku::where('karyawan_id', $idKaryawan)->where('status', 'valid')->count();
+        $jumlahValidIKI = PenilaianIki::where('karyawan_id', $idKaryawan)->where('status', 'valid')->count();
         
         // Perhitungan persentase valid masing-masing
         $persentaseValidIKU = ($totalIKU > 0) ? ($jumlahValidIKU / $totalIKU) * 100 : 0;
@@ -252,7 +252,7 @@ class ValidationController extends Controller
 
         // Simpan hasil perhitungan
         RekapPenilaian::updateOrCreate(
-            ['user_id' => $idKaryawan], // ID karyawan
+            ['karyawan_id' => $idKaryawan], // ID karyawan
             [
                 'periode_rekap' => $periode,
                 'total_iku' => $totalIKU,

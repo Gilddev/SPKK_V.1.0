@@ -4,7 +4,7 @@
 <div class="container">
     <div class="mt-3 m-3 text-center">Selamat datang di halaman validator. Pilih menu di navbar untuk mengelola sistem.</div>
 </div>
-<div class="container">
+{{-- <div class="container">
     <h3 class="text-center">Grafik Kinerja Karyawan</h3>
 
     <div class="row mt-4">
@@ -100,5 +100,5 @@
                 }
             }
         });
-    </script>
+    </script> --}}
 @endsection

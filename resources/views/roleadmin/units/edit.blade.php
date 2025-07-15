@@ -28,7 +28,7 @@
         <div>
             <button type="submit" class="btn btn-primary">Simpan</button>
             <button type="reset" class="btn btn-warning">Clear</button>
-            <a href="{{ route('admin.unit_index') }}" class="btn btn-secondary">Batal</a>
+            <a href="{{ route('admin.unit_index') }}" class="btn btn-secondary">Kembali</a>
         </div>
 
     </form>

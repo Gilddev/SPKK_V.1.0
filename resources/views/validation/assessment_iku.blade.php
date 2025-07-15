@@ -77,7 +77,7 @@
                             <!-- Jika belum ada penilaian, tampilkan tombol Valid -->
                             <form action="{{ route('validation.store_penilaian_iku') }}" method="POST" style="display: inline;">
                                 @csrf
-                                <input type="hidden" name="user_id" value="{{ $karyawan->id }}">
+                                <input type="hidden" name="karyawan_id" value="{{ $karyawan->id }}">
                                 <input type="hidden" name="iku_id" value="{{ $iku->id }}">
                                 <input type="hidden" name="status" value="valid">
                                 <button type="submit" class="btn btn-success">Valid</button>

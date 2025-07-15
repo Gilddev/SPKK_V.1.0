@@ -18,7 +18,10 @@ class AdminController extends Controller
     // function USERS ==================================================================================================================================================================================================================
 
     public function userIndex(){
-        $users = User::with('jabatan','unit')->paginate(20);
+        // $users = User::with('jabatan','unit')->paginate(20);
+        $users = User::with('jabatan', 'unit')
+            ->orderByRaw("FIELD(role, 'admin', 'validator', 'karyawan')")
+            ->paginate(20);
         $units = Unit::all();
         $jabatans = Jabatan::all();
         return view('roleadmin.users.index', compact('users', 'units', 'jabatans'));
@@ -59,8 +62,9 @@ class AdminController extends Controller
                 'unit_id'=>$request->unit_id
             ]);
             return redirect()->back()->with('success', 'User berhasil ditambahkan');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'User gagal ditambahkan');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Gagal Menyimpan');
+            // return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
         }
         
     }
@@ -287,7 +291,7 @@ class AdminController extends Controller
             }
         }])->where('role', 'karyawan')->get()->groupBy('unit.nama_unit');
 
-        return view('roleadmin.index', compact('rekapPenilaian', 'bulan', 'tahun'));
+        return view('roleadmin.users.index', compact('rekapPenilaian', 'bulan', 'tahun'));
     }       
 
     // fungsi cetak laporan

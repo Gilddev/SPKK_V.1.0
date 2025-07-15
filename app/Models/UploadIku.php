@@ -11,7 +11,7 @@ class UploadIku extends Model
 
     protected $fillable = [
         'periode_penilaian',
-        'user_id',
+        'karyawan_id',
         'iku_id', 
         'file_path'
     ];

@@ -37,8 +37,8 @@
             <label for="berulang" class="form-label">Berulang</label><br>
             <select name="berulang" class="form-control" required>
                 <option value=""></option>
-                <option value="ya" {{ $indikators->berulang == 'ya' ? 'selected' : '' }}>Iya</option>
-                <option value="tidak" {{ $indikators->berulang == 'tidak' ? 'selected' : '' }}>Tidak</option>
+                <option value="Iya" {{ $indikators->berulang == 'Iya' ? 'selected' : '' }}>Iya</option>
+                <option value="Tidak" {{ $indikators->berulang == 'Tidak' ? 'selected' : '' }}>Tidak</option>
             </select>
         </div>
 

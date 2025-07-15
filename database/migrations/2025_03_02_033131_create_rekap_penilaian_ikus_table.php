@@ -12,12 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('rekap_penilaian_ikus', function (Blueprint $table) {
-            $table->id('rekap_penilaian_iku_id');
-            $table->foreignId('id')->constrained('users')->onDelete('cascade');
+            $table->id();
+            $table->foreignId('karyawan_id')->constrained('users')->onDelete('cascade');
+            $table->unsignedSmallInteger('tahun'); // e.g., 2025
+            $table->unsignedTinyInteger('bulan');  // e.g., 7
             $table->integer('total_iku')->default(0);
+            $table->integer('total_iku_valid')->default(0);
+            $table->decimal('persentase_iku_valid', 5, 2)->default(0);
             $table->integer('total_iki')->default(0);
-            $table->integer('jumlah_valid')->default(0);
-            $table->decimal('persentase_valid', 5, 2)->default(0);
+            $table->integer('total_iki_valid')->default(0);
+            $table->decimal('persentase_iki_valid', 5, 2)->default(0);
+            $table->decimal('persentase_kinerja', 5, 2)->default(0);
             $table->timestamps();
         });
     }

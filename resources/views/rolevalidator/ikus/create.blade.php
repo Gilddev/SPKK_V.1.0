@@ -37,8 +37,8 @@
             <label for="berulang" class="form-label">Berulang</label><br>
             <select name="berulang" class="form-control" required>
                 <option value=""> - </option>
-                <option value="ya">Iya</option>
-                <option value="tidak">Tidak</option>
+                <option value="Iya">Iya</option>
+                <option value="Tidak">Tidak</option>
             </select>
         </div>
 

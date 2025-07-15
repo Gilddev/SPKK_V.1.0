@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('indikator_kinerja_utamas', function (Blueprint $table) {
-            $table->id('iku_id');
+        Schema::create('ikus', function (Blueprint $table) {
+            $table->id();
             $table->string('deskripsi_indikator');
-            $table->foreignId('unit_id')->constrained('units')->onDelete('cascade');
-            $table->foreignId('id')->constrained('users')->onDelete('cascade'); // Menyimpan ID validator dari tabel users
+            $table->string('Indikator_keberhasilan');
+            $table->string('parameter');
+            $table->enum('berulang', ['Iya','Tidak'])->default('Tidak');
+            $table->json('allow_file_types')->nullable();
             $table->timestamps();
         });
     }

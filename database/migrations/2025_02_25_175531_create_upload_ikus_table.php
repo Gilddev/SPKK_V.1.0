@@ -12,9 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('upload_ikus', function (Blueprint $table) {
-            $table->id('upload_iku_id');
-            $table->foreignId('id')->constrained('users')->onDelete('cascade'); // Karyawan yang upload
-            $table->foreignId('iku_id')->constrained('indikator_kinerja_utamas')->onDelete('cascade'); // Indikator terkait
+            $table->id();
+            $table->integer('tahun');
+            $table->integer('bulan');
+            $table->foreignId('karyawan_id')->constrained('users')->onDelete('cascade'); // Karyawan yang upload
+            $table->foreignId('iku_id')->constrained('ikus')->onDelete('cascade'); // Indikator terkait
             $table->string('file_path'); // Simpan path file
             $table->timestamps();
         });
