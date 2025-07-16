@@ -37,6 +37,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
+                <th>Kode Iku</th>
                 <th>Deskripsi Indikator</th>
                 <th>Preview</th>
                 <th>Aksi</th>
@@ -45,8 +46,8 @@
         <tbody>
             @foreach ($indikators as $d)
             <tr>
+                <td>{{ $d->kode_iku }}</td>
                 <td>{{ $d->deskripsi_indikator }}</td>
-
                 <td>
                     @php
                         $filteredUploads = $uploads->where('iku_id', $d->id);

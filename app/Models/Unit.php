@@ -15,8 +15,8 @@ class Unit extends Model
         'nama_unit'
     ];
 
-    public function users(){
-        return $this->hasMany(User::class, 'unit_id');
+    public function karyawan(){
+        return $this->hasMany(User::class, 'karyawan_id');
     }
 
     public function iki(){

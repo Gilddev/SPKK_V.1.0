@@ -27,8 +27,8 @@ class RekapPenilaianController extends Controller
         $totalIKI = Iki::where('unit_id', $user->unit_id)->count(); // Berdasarkan unit kerja
 
         // Hitung jumlah valid untuk IKU dan IKI
-        $jumlahValidIKU = PenilaianIku::where('user_id', $id)->where('status', 'valid')->count();
-        $jumlahValidIKI = PenilaianIki::where('user_id', $id)->where('status', 'valid')->count();
+        $jumlahValidIKU = PenilaianIku::where('karyawan_id', $id)->where('status', 'valid')->count();
+        $jumlahValidIKI = PenilaianIki::where('karyawan_id', $id)->where('status', 'valid')->count();
 
         // Perhitungan persentase valid masing-masing
         $persentaseValidIKU = ($totalIKU > 0) ? ($jumlahValidIKU / $totalIKU) * 100 : 0;
@@ -43,7 +43,7 @@ class RekapPenilaianController extends Controller
 
         // Simpan atau update rekap penilaian
         RekapPenilaian::updateOrCreate(
-            ['user_id' => $id], // Berdasarkan ID Karyawan
+            ['karyawan_id' => $id], // Berdasarkan ID Karyawan
             [
                 'periode_rekap' => $periode,
                 'total_iku' => $totalIKU,

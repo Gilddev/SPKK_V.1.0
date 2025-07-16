@@ -27,7 +27,7 @@ class KaryawanController extends Controller
         $user = Auth::user();
         $userUnit = Auth::user()->unit;
         $userJabatan = Auth::user()->jabatan;
-        $rekap = RekapPenilaian::where('user_id', $userId)
+        $rekap = RekapPenilaian::where('karyawan_id', $userId)
             ->orderByDesc('periode_rekap')
             ->get();
 
@@ -55,7 +55,7 @@ class KaryawanController extends Controller
         $indikators = Iki::where('unit_id', $unitId)->get();
 
         // Ambil semua file yang sudah diupload
-        $uploads = UploadIki::where('user_id', Auth::id())
+        $uploads = UploadIki::where('karyawan_id', Auth::id())
                     ->with('iki')
                     ->get();
 
@@ -102,7 +102,7 @@ class KaryawanController extends Controller
         UploadIki::create([
             'periode_penilaian' => $periode,
             'unit_id' => $unitId,
-            'user_id' => Auth::id(),
+            'karyawan_id' => Auth::id(),
             'iki_id' => $request->iki_id,
             'file_path' => $filePath,
         ]);
@@ -151,7 +151,7 @@ class KaryawanController extends Controller
         $indikators = Iku::all();
 
         // Ambil semua file yang sudah diupload
-        $uploads = UploadIku::where('user_id', Auth::id())
+        $uploads = UploadIku::where('karyawan_id', Auth::id())
                     ->with('iku')
                     ->get();
 
@@ -180,7 +180,7 @@ class KaryawanController extends Controller
         // Ambil tahun dan bulan saat ini
         $tahun = now()->format('Y'); // contoh: 2025
         $bulan = now()->format('m'); // contoh: 05
-        $periode = $tahun . $bulan;  // hasil: 202505
+        // $periode = $tahun . $bulan;  // hasil: 202505
     
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -198,8 +198,10 @@ class KaryawanController extends Controller
 
             try {
                 UploadIku::create([
-                    'periode_penilaian' => $periode,
-                    'user_id' => Auth::id(),
+                    // 'periode_penilaian' => $periode,
+                    'tahun' => $tahun,
+                    'bulan' => $bulan,
+                    'karyawan_id' => Auth::id(),
                     'iku_id' => $request->iku_id,
                     'file_path' => $filePath,
                 ]);

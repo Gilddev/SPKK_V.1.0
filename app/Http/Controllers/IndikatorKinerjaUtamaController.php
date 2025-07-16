@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\IndikatorKinerjaUtama;
+use App\Models\Iku;
 // use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +32,7 @@ class IndikatorKinerjaUtamaController extends Controller
         ]);
         dd($request);
 
-        IndikatorKinerjaUtama::create([
+        Iku::create([
             'deskripsi_indikator' => $request->deskripsi_indikator,
             'indikator_keberhasilan' => $request->indikator_keberhasilan,
             'parameter' => $request->parameter,

@@ -14,7 +14,8 @@ class Iku extends Model
         'deskripsi_indikator', 
         'indikator_keberhasilan', 
         'parameter', 
-        'berulang'
+        'berulang',
+        // 'allow_file_types'
     ];
 
     public function users()

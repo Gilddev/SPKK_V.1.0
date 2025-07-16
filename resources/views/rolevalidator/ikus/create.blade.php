@@ -42,8 +42,39 @@
             </select>
         </div>
 
+        {{-- <div class="mb-3">
+            <label class="form-label">Jenis File yang Diperbolehkan <span class="text-danger">*</span></label><br>
+            <div>
+                <input type="checkbox" name="jenis_file[]" value="pdf" class="file-type"> PDF
+            </div>
+            <div>
+                <input type="checkbox" name="jenis_file[]" value="word" class="file-type"> Word
+            </div>
+            <div>
+                <input type="checkbox" name="jenis_file[]" value="excel" class="file-type"> Excel
+            </div>
+            <div>
+                <input type="checkbox" name="jenis_file[]" value="image" class="file-type"> PNG/JPG
+            </div>
+            <span id="fileTypeError" class="text-danger d-none">Minimal 1 jenis file harus dipilih.</span>
+        </div> --}}
+
         <button type="submit" class="btn btn-success">Simpan</button>
         <a href="{{ route('validator.iku_index') }}" class="btn btn-primary">Kembali</a>
     </form>
 </div>
 @endsection
+
+{{-- @section('scripts')
+<script>
+    document.querySelector('form').addEventListener('submit', function (e) {
+        let checkboxes = document.querySelectorAll('.file-type');
+        let isChecked = Array.from(checkboxes).some(cb => cb.checked);
+
+        if (!isChecked) {
+            e.preventDefault();
+            document.getElementById('fileTypeError').classList.remove('d-none');
+        }
+    });
+</script>
+@endsection --}}

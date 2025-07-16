@@ -15,6 +15,7 @@ class Iki extends Model
         'indikator_keberhasilan', 
         'parameter', 
         'unit_id', 
+        // 'allow_file_types'
     ];
 
     public function unit()

@@ -45,11 +45,11 @@ class User extends Authenticatable
     }
 
     public function uploadIku(){
-        return $this->hasMany(UploadIku::class);
+        return $this->hasMany(UploadIku::class, 'karyawan_id', 'id');
     }
 
     public function uploadIki(){
-        return $this->hasMany(UploadIki::class);
+        return $this->hasMany(UploadIki::class, 'karyawan_id', 'id');
     }
 
     public function penilaianIku(){
@@ -62,7 +62,7 @@ class User extends Authenticatable
 
     public function rekapPenilaian()
     {
-        return $this->hasOne(RekapPenilaian::class); // id pada tabel user = id pada tabel rekap_penilaian
+        return $this->hasMany(RekapPenilaian::class, 'karyawan_id', 'id');
     }
 
     /**

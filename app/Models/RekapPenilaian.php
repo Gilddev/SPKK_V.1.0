@@ -10,7 +10,7 @@ class RekapPenilaian extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'karyawan_id',
         'periode_rekap',
         'total_iku', 
         'total_iki', 

@@ -24,14 +24,14 @@ class ValidatorController extends Controller
         // $totalValidator = User::where('role', 'validator')->count();
 
         // Ambil 5 karyawan dengan persentase kinerja tertinggi
-        // $top5Karyawan = RekapPenilaian::join('users', 'rekap_penilaians.user_id', '=', 'users.id')
+        // $top5Karyawan = RekapPenilaian::join('users', 'rekap_penilaians.karyawan_id', '=', 'users.id')
         //     ->select('users.name', 'rekap_penilaians.persentase_kinerja')
         //     ->orderBy('persentase_kinerja', 'desc')
         //     ->limit(5)
         //     ->get();
 
         // // Ambil 5 karyawan dengan persentase kinerja terendah
-        // $bottom5Karyawan = RekapPenilaian::join('users', 'rekap_penilaians.user_id', '=', 'users.id')
+        // $bottom5Karyawan = RekapPenilaian::join('users', 'rekap_penilaians.karyawan_id', '=', 'users.id')
         //     ->select('users.name', 'rekap_penilaians.persentase_kinerja')
         //     ->orderBy('persentase_kinerja', 'asc')
         //     ->limit(5)
@@ -178,15 +178,22 @@ class ValidatorController extends Controller
             'deskripsi_indikator' => 'required|string|max:255',
             'indikator_keberhasilan' => 'required|string|max:255',
             'parameter' => 'required|string|max:255',
-            'berulang' => 'required'
+            'berulang' => 'required',
+            // 'jenis_file' => 'required|array|min:1',
+            // 'jenis_file.*' => 'in:pdf,word,excel,image',
         ]);
+
+        $jumlahIku = Iku::count();
+        $kodeIku = 'IKU-' . ($jumlahIku + 1);
 
         try {
             Iku::create([
+                'kode_iku' => $kodeIku,
                 'deskripsi_indikator' => $request->deskripsi_indikator,
                 'indikator_keberhasilan' => $request->indikator_keberhasilan,
                 'parameter' => $request->parameter,
                 'berulang' => $request->berulang,
+                // 'allow_file_types' => json_encode($request->jenis_file)
             ]);
 
             return redirect()->back()->with('success', 'Indikator berhasil ditambahkan');
@@ -241,6 +248,8 @@ class ValidatorController extends Controller
         $users = User::with('jabatan','unit')->get();
         $units = Unit::all();
         $jabatans = Jabatan::all();
+
+        
         
         // Ambil data rekap penilaian karyawan berdasarkan unit
         $rekapPenilaian = User::where('role', 'karyawan') // Hanya karyawan
@@ -276,7 +285,7 @@ class ValidatorController extends Controller
         $totalKaryawan = User::count();
 
         // Ambil data persentase kinerja setiap karyawan
-        $karyawanData = RekapPenilaian::join('users', 'rekap_penilaians.user_id', '=', 'users.id')
+        $karyawanData = RekapPenilaian::join('users', 'rekap_penilaians.karyawan_id', '=', 'users.id')
             ->select('users.name', 'rekap_penilaians.persentase_kinerja')
             ->orderBy('persentase_kinerja', 'desc')
             ->get();

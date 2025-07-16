@@ -53,11 +53,16 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $karyawan->name }}</td>
-                                    <td>{{ $karyawan->rekapPenilaian->total_iku ?? 0 }}</td>
+                                    <td>{{ $karyawan->total_iku ?? 0 }}</td>
+                                    <td>{{ $karyawan->jumlah_valid_iku ?? 0 }}</td>
+                                    <td>{{ $karyawan->total_iki ?? 0 }}</td>
+                                    <td>{{ $karyawan->jumlah_valid_iki ?? 0 }}</td>
+                                    <td>{{ $karyawan->persentase_kinerja ?? 0 }}%</td>
+                                    {{-- <td>{{ $karyawan->rekapPenilaian->total_iku ?? 0 }}</td>
                                     <td>{{ $karyawan->rekapPenilaian->jumlah_valid_iku ?? 0 }}</td>
                                     <td>{{ $karyawan->rekapPenilaian->total_iki ?? 0 }}</td>
                                     <td>{{ $karyawan->rekapPenilaian->jumlah_valid_iki ?? 0 }}</td>
-                                    <td>{{ $karyawan->rekapPenilaian->persentase_kinerja ?? 0 }}%</td>
+                                    <td>{{ $karyawan->rekapPenilaian->persentase_kinerja ?? 0 }}%</td> --}}
                                 </tr>
                             {{-- @endif --}}
                         @endforeach

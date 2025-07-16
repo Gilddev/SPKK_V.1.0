@@ -16,9 +16,9 @@ class UploadIku extends Model
         'file_path'
     ];
 
-    public function user()
+    public function karyawan()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'karyawan_id');
     }
 
     public function iku()

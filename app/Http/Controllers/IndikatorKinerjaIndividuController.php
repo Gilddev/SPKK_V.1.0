@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\IndikatorKinerjaIndividu;
+use App\Models\Iki;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +11,7 @@ class IndikatorKinerjaIndividuController extends Controller
 {
     public function index()
     {
-        $indikator = IndikatorKinerjaIndividu::with('unit')->get();
+        $indikator = Iki::with('unit')->get();
         return view('rolevalidator.index', compact('indikator'));
     }
 
@@ -30,7 +30,7 @@ class IndikatorKinerjaIndividuController extends Controller
             'unit_id' => 'required|exists:units,id',
         ]);
 
-        IndikatorKinerjaIndividu::create([
+        Iki::create([
             'deskripsi_indikator' => $request->deskripsi_indikator,
             'indikator_keberhasilan' => $request->indikator_keberhasilan,
             'parameter' => $request->parameter,
